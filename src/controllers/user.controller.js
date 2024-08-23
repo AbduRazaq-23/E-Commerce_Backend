@@ -15,7 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const existedUser = await User.findOne({ email });
   if (existedUser) {
-    throw new ApiError(409, "User already exist with email or username");
+    throw new ApiError(409, "User already exist with email");
   }
 
   //@dec pick avatar local file path
@@ -86,12 +86,12 @@ const logInUser = asyncHandler(async (req, res) => {
   }
 
   //@dec call a function to generate token by user id
-  // todo required
+  const token = user.generateToken();
+  user.token = token;
+  await user.save({ validateBeforeSave: false });
 
   //@dec then store that data on a variable remove password and refreshToken
-  const userLogedIn = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+  const userLogedIn = await User.findById(user._id).select("-password ");
 
   //@dec Setting a cookie without options
   const options = {
@@ -105,10 +105,8 @@ const logInUser = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        {
-          user: userLogedIn,
-          token,
-        },
+        userLogedIn,
+
         "User logged In Successfully"
       )
     );
