@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const { ObjectId } = mongoose.Schema;
 
-const reviewSchema = mongoose.Schema(
+const reviewSchema = Schema(
   {
     name: { type: String, required: true },
     rating: { type: Number, required: true },
@@ -15,7 +15,7 @@ const reviewSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const productSchema = mongoose.Schema(
+const productSchema = Schema(
   {
     name: { type: String, required: true },
     image: { type: String, required: true },
