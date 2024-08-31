@@ -47,6 +47,7 @@ const productSchema = Schema(
     category: {
       type: ObjectId,
       ref: "Category",
+      required: true,
     },
     description: {
       type: String,

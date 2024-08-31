@@ -24,4 +24,12 @@ const verifyJWT = asyncHandler(async (req, _, next) => {
   }
 });
 
-export { verifyJWT };
+//@dec ---is admin middleware---
+const isAdmin = asyncHandler((req, res, next) => {
+  console.log(req.user);
+  req.user && req.user.isAdmin === true
+    ? next()
+    : res.status(401).json("not authorized as admin");
+});
+
+export { verifyJWT, isAdmin };
