@@ -7,13 +7,14 @@ import {
   deleteProduct,
   getAllProducts,
   getNewProducts,
+  getProductsBySearch,
 } from "../controllers/product.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { isAdmin } from "../middlewares/auth.middleware.js";
 
 router
   .route("/")
-  .post(isAdmin, upload.single("image"), createProduct)
+  .post(upload.single("image"), createProduct)
   .get(getAllProducts);
 
 router
@@ -22,5 +23,6 @@ router
   .delete(deleteProduct);
 
 router.route("/new").get(getNewProducts);
+router.route("/search").get(getProductsBySearch);
 
 export default router;

@@ -72,6 +72,17 @@ const getNewProducts = asyncHandler(async (req, res) => {
     new ApiResponse(200, newProduct, "new product fetch successfully")
   );
 });
+//@dec ---get new Products controller---
+const getProductsBySearch = asyncHandler(async (req, res) => {
+  const findKeyword = await Product.find({
+    name: {
+      $regex: req.query.keyword,
+      $options: "i",
+    },
+  }).limit(10);
+
+  res.json(findKeyword);
+});
 
 export {
   createProduct,
@@ -79,4 +90,5 @@ export {
   deleteProduct,
   getAllProducts,
   getNewProducts,
+  getProductsBySearch,
 };
