@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 const { ObjectId } = mongoose.Schema;
 
+//@dec ---review Schema---
 const reviewSchema = Schema(
   {
     name: {
@@ -24,6 +25,7 @@ const reviewSchema = Schema(
   { timestamps: true }
 );
 
+//@dec ---produc Schema---
 const productSchema = Schema(
   {
     name: {
