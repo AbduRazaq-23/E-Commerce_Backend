@@ -1,6 +1,25 @@
 import mongoose, { Schema } from "mongoose";
 const { ObjectId } = mongoose.Schema;
 
+//@dec ---comment Schema---
+const commentSchema = Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  },
+  { timestamps: true }
+);
 //@dec ---review Schema---
 const reviewSchema = Schema(
   {
@@ -10,10 +29,6 @@ const reviewSchema = Schema(
     },
     rating: {
       type: Number,
-      required: true,
-    },
-    comment: {
-      type: String,
       required: true,
     },
     user: {
@@ -54,12 +69,18 @@ const productSchema = Schema(
       required: true,
     },
     reviews: [reviewSchema],
+    comments: [commentSchema],
     rating: {
       type: Number,
       required: true,
       default: 0,
     },
     numReviews: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    numComments: {
       type: Number,
       required: true,
       default: 0,
