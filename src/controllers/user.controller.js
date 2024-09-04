@@ -96,20 +96,17 @@ const logInUser = asyncHandler(async (req, res) => {
   //@dec Setting a cookie without options
   const options = {
     httpOnly: true,
+    secure: true,
   };
   //@dec store token on cookie then send that all in response
-  return res
-    .status(200)
-    .cookie("token", token, options)
+  return res.status(200).cookie("token", token, options).json(
+    new ApiResponse(
+      200,
+      userLogedIn,
 
-    .json(
-      new ApiResponse(
-        200,
-        userLogedIn,
-
-        "User logged In Successfully"
-      )
-    );
+      "User logged In Successfully"
+    )
+  );
 });
 
 //********************************************************************************//
