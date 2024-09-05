@@ -7,9 +7,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 //********************************************************************************//
 //@dec Registration Controller
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, isAdmin } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!(name, email, password, isAdmin)) {
+  if (!(name, email, password)) {
     throw new ApiError(400, "fill all the field");
   }
 
@@ -40,7 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
     avatar: avatar?.url,
     email,
     password,
-    isAdmin,
   });
 
   //@dec find that store data by id then store that on variable
@@ -95,8 +94,7 @@ const logInUser = asyncHandler(async (req, res) => {
 
   //@dec Setting a cookie without options
   const options = {
-    httpOnly: true,
-    secure: true,
+    httpOnly: false,
   };
   //@dec store token on cookie then send that all in response
   return res.status(200).cookie("token", token, options).json(
