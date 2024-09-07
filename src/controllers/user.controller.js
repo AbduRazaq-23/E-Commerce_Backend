@@ -218,6 +218,17 @@ const updateAvatar = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "avatar updated successfully"));
 });
+//@dec getAllUser
+const getAllUser = asyncHandler(async (req, res) => {
+  const allUser = await User.find();
+  if (!allUser) {
+    throw new ApiError(404, "user not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, allUser, "get the all users"));
+});
 
 //********************************************************************************//
 //@dec export the controller
@@ -229,4 +240,5 @@ export {
   getCurrentUser,
   updateAccountDetails,
   updateAvatar,
+  getAllUser,
 };
