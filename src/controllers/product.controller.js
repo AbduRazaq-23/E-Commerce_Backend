@@ -33,13 +33,10 @@ const createProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
 
-  const cloudImage = await uploadOnCloudinary(req.file?.path);
-
   const updatedProducts = await Product.findByIdAndUpdate(
     productId,
     {
       ...req.body,
-      image: cloudImage?.url,
     },
     { new: true }
   );
