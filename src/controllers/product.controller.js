@@ -177,6 +177,14 @@ const addCommentToProducts = asyncHandler(async (req, res) => {
 
   res.status(201).json(new ApiResponse(201, updatedProduct, "comment added"));
 });
+//@dec ---getProductById controller---
+const getProductById = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+
+  const getProduct = await Product.findById(productId);
+
+  res.status(200).json(new ApiResponse(200, getProduct, "comment added"));
+});
 
 export {
   createProduct,
@@ -187,4 +195,5 @@ export {
   getProductsBySearch,
   addProductReview,
   addCommentToProducts,
+  getProductById,
 };
