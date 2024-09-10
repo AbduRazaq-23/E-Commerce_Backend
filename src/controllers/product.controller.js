@@ -180,7 +180,7 @@ const getProductById = asyncHandler(async (req, res) => {
 
   const getProduct = await Product.findById(productId);
 
-  res.status(200).json(new ApiResponse(200, getProduct, "comment added"));
+  res.status(200).json(new ApiResponse(200, getProduct, "get product by id"));
 });
 
 export {
