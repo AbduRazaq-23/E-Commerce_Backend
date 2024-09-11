@@ -170,23 +170,13 @@ const getCurrentUser = asyncHandler((req, res) => {
 //********************************************************************************//
 //@dec update username and email
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { name, email } = req.body;
-
-  if (!(email, name)) {
-    throw new ApiError(400, "fill the field");
-  }
-
   const user = await User.findByIdAndUpdate(
     req?.user._id,
-
     {
-      $set: {
-        name,
-        email,
-      },
+      ...req.body,
     },
     { new: true }
-  ).select("-password");
+  ).select("-password -token");
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated"));
@@ -197,6 +187,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
+  console.log(avatarLocalPath);
   if (!avatarLocalPath) {
     throw new ApiError(400, "avatar file required");
   }
