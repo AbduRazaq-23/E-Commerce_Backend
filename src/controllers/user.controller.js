@@ -194,7 +194,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
-  await User.findByIdAndUpdate(
+  const updatedAvatar = await User.findByIdAndUpdate(
     req.user?._id,
 
     {
@@ -207,7 +207,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "avatar updated successfully"));
+    .json(new ApiResponse(200, updatedAvatar, "avatar updated successfully"));
 });
 //@dec getAllUser
 const getAllUser = asyncHandler(async (req, res) => {
