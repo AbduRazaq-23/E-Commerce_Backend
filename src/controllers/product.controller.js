@@ -155,15 +155,22 @@ const addCommentToProducts = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const userId = req.user?._id;
 
+  if (!userId) {
+    return res.json("u should login first");
+  }
+
+  if (!comment) {
+    return res.json("add some text");
+  }
   // Proceed to add the review
   const comments = {
     name: req.user?.name,
-    comment,
+    ...req.body,
     user: userId,
   };
 
   // Push the new review to the reviews array
-  const updatedProduct = await Product.findByIdAndUpdate(
+  await Product.findByIdAndUpdate(
     productId,
     {
       $push: { comments },
@@ -171,6 +178,10 @@ const addCommentToProducts = asyncHandler(async (req, res) => {
     },
     { new: true }
   );
+
+  const updatedProduct = await Product.findById(productId);
+
+  console.log(updatedProduct);
 
   res.status(201).json(new ApiResponse(201, updatedProduct, "comment added"));
 });
