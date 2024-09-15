@@ -89,7 +89,7 @@ const getProductsBySearch = asyncHandler(async (req, res) => {
 });
 //@dec ---addProductReview controller---
 const addProductReview = asyncHandler(async (req, res) => {
-  const { rating } = req.body;
+  const { value } = req.body;
   const { productId } = req.params;
   const userId = req.user?._id;
 
@@ -109,13 +109,13 @@ const addProductReview = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Product not found" });
   }
   if (product[0].alreadyReviewed) {
-    return res.status(400).json({ message: "Product already reviewed" });
+    return res.json({ message: "Product already reviewed" });
   }
 
   // Proceed to add the review
   const review = {
     name: req.user?.name,
-    rating: Number(rating),
+    rating: Number(value),
     user: userId,
   };
 
@@ -147,7 +147,9 @@ const addProductReview = asyncHandler(async (req, res) => {
   updatedProduct.numReviews = ratingData.numReviews;
   await updatedProduct.save();
 
-  res.status(201).json(new ApiResponse(201, "Review added"));
+  const updatedRatingData = await Product.findById(productId);
+
+  res.status(201).json(new ApiResponse(201, updatedRatingData, "Review added"));
 });
 //@dec ---addCommentToProducts controller---
 const addCommentToProducts = asyncHandler(async (req, res) => {
