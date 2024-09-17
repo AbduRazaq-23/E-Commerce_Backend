@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 
-//@dec ---creating Product controller---
+//@dec ---creating Product controller---done
 const createProduct = asyncHandler(async (req, res) => {
   const { name, category, brand, quantity, description, price, countInStock } =
     req.body;
@@ -29,7 +29,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
   return res.json(new ApiResponse(201, createProducts, "created successfully"));
 });
-//@dec ---update Product controller---
+//@dec ---update Product controller---done
 const updateProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
 
@@ -45,13 +45,14 @@ const updateProduct = asyncHandler(async (req, res) => {
     new ApiResponse(200, updatedProducts, "updated successfully")
   );
 });
-//@dec ---delete Product controller---
+//@dec ---delete Product controller---done
 const deleteProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
 
   await Product.findByIdAndDelete(productId);
+  const product = await Product.find();
 
-  return res.json(new ApiResponse(200, "deleted successfully"));
+  return res.json(new ApiResponse(200, product, "deleted successfully"));
 });
 //@dec ---get all Products controller---
 const getAllProducts = asyncHandler(async (req, res) => {
@@ -64,14 +65,14 @@ const getAllProducts = asyncHandler(async (req, res) => {
     new ApiResponse(200, allProduct, "all product fetch successfully")
   );
 });
-//@dec ---get new Products controller---
+//@dec ---get new Products controller---?
 const getNewProducts = asyncHandler(async (req, res) => {
   const newProduct = await Product.find().sort({ createdAt: -1 }).limit(10);
   return res.json(
     new ApiResponse(200, newProduct, "new product fetch successfully")
   );
 });
-//@dec ---get Products by search controller---
+//@dec ---get Products by search controller---?
 const getProductsBySearch = asyncHandler(async (req, res) => {
   const findKeyword = await Product.find({
     name: {
@@ -87,7 +88,7 @@ const getProductsBySearch = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, findKeyword, "matched product"));
 });
-//@dec ---addProductReview controller---
+//@dec ---addProductReview controller---done
 const addProductReview = asyncHandler(async (req, res) => {
   const { value } = req.body;
   const { productId } = req.params;
@@ -151,7 +152,7 @@ const addProductReview = asyncHandler(async (req, res) => {
 
   res.status(201).json(new ApiResponse(201, updatedRatingData, "Review added"));
 });
-//@dec ---addCommentToProducts controller---
+//@dec ---addCommentToProducts controller---done
 const addCommentToProducts = asyncHandler(async (req, res) => {
   const { comment } = req.body;
   const { productId } = req.params;
@@ -187,7 +188,7 @@ const addCommentToProducts = asyncHandler(async (req, res) => {
 
   res.status(201).json(new ApiResponse(201, updatedProduct, "comment added"));
 });
-//@dec ---getProductById controller---
+//@dec ---getProductById controller---done
 const getProductById = asyncHandler(async (req, res) => {
   const { productId } = req.params;
 

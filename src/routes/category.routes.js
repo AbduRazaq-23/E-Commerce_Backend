@@ -11,6 +11,6 @@ import {
 router.route("/").post(createCategory);
 router.route("/:categoryId").patch(updateCategory);
 router.route("/:categoryId").delete(deleteCategroy);
-router.route("/").get(listOfCategroy);
+router.route("/getcategory").get(listOfCategroy);
 
 export default router;

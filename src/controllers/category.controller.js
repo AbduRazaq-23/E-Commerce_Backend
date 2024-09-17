@@ -6,9 +6,21 @@ import { ApiError } from "../utils/ApiError.js";
 //@dec ---createCategory controller---
 const createCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
+
   if (!name) {
     throw new ApiError(401, "name is required");
   }
+
+  const ifAvailable = await Category.aggregate([
+    {
+      $match: { name: name },
+    },
+  ]);
+
+  if (ifAvailable.length > 0) {
+    return res.json(new ApiResponse(401, {}, "already available"));
+  }
+
   const create = await Category.create({ name });
 
   return res
@@ -42,12 +54,12 @@ const updateCategory = asyncHandler(async (req, res) => {
 const deleteCategroy = asyncHandler(async (req, res) => {
   const { categoryId } = req.params;
 
-  const categoryDelete = await Category.findByIdAndDelete(categoryId);
+  await Category.findByIdAndDelete(categoryId);
 
-  if (!categoryDelete) {
-    throw new ApiError(500, "category not deleted");
-  }
-  return res.status(200).json(new ApiResponse(200, {}, "deleted successfully"));
+  const updatedCategory = await Category.find();
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedCategory, "deleted successfully"));
 });
 //@dec ---listOfCategroy controller---
 const listOfCategroy = asyncHandler(async (req, res) => {
