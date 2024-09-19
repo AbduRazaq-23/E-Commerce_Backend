@@ -20,9 +20,11 @@ app.use(express.static("public"));
 import userRoutes from "./routes/user.route.js";
 import categoryRoutes from "./routes/category.routes.js";
 import productsRoutes from "./routes/product.routes.js";
+import paymentGateway from "./routes/payment.route.js";
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/products", productsRoutes);
+app.use("/api/v1/payment", paymentGateway);
 
 export default app;
